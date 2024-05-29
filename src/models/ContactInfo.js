@@ -1,9 +1,12 @@
-const { Model, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-class ContactInfo extends Model {}
-
-ContactInfo.init({
+const ContactInfo = sequelize.define('ContactInfo', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -14,11 +17,7 @@ ContactInfo.init({
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   },
-  phoneNumber: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
+  phone: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -27,8 +26,7 @@ ContactInfo.init({
     allowNull: false,
   },
 }, {
-  sequelize,
-  modelName: 'ContactInfo',
+  timestamps: true,
 });
 
 module.exports = ContactInfo;

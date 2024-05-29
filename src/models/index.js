@@ -7,7 +7,6 @@ const CV = require('./CV');
 const JobPost = require('./JobPost');
 const Admin = require('./Admin');
 const ContactInfo = require('./ContactInfo');
-const Pack = require('./Pack');
 
 const models = {
   User,
@@ -16,7 +15,6 @@ const models = {
   JobPost,
   Admin,
   ContactInfo,
-  Pack,
 };
 
 // Associations entre User et CV
