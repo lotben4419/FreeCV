@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { CV, ContactInfo } = require('../models');
+const { CV } = require('../models');
 
 const router = express.Router();
 
@@ -17,17 +17,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Route pour télécharger la photo de profil, le CV et les coordonnées
+// Route pour télécharger la photo de profil et le CV
 router.post('/cv', upload.fields([{ name: 'profilePhoto', maxCount: 1 }, { name: 'cvFile', maxCount: 1 }]), async (req, res) => {
   try {
-    const { userId, message, phone, address } = req.body;
+    const { userId, message, phone, address, email } = req.body;
     const profilePhoto = req.files['profilePhoto'] ? req.files['profilePhoto'][0].filename : null;
     const cvFile = req.files['cvFile'] ? req.files['cvFile'][0].filename : null;
 
-    const cv = await CV.create({ userId, profilePhoto, cvFile, message });
-    const contactInfo = await ContactInfo.create({ userId, phone, address });
-
-    res.status(201).json({ cv, contactInfo });
+    const cv = await CV.create({ userId, profilePhoto, cvFile, message, phone, address, email });
+    res.status(201).json(cv);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

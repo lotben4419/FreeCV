@@ -29,14 +29,20 @@ const CV = sequelize.define('CV', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
 }, {
   timestamps: true,
-});
-
-const Coordinates = require('./Coordinates');
-CV.hasOne(Coordinates, {
-  foreignKey: 'cvId',
-  as: 'coordinates',
 });
 
 module.exports = CV;

@@ -40,7 +40,7 @@ app.use('/api/pack', packRoutes);
 app.use('/api/contact-info', contactInfoRoutes);
 
 // Sync database and start server
-sequelize.sync() // Retirez l'option { force: true }
+sequelize.sync({ alter: true }) // Utilisez alter pour mettre à jour la table existante sans perte de données
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}.`);
