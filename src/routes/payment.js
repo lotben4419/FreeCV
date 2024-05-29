@@ -1,22 +1,30 @@
-// src/routes/payment.js
 const express = require('express');
 const stripe = require('../config/stripe');
+const { Pack, Company } = require('../models');
+const authenticateCompany = require('../middleware/authenticateCompany');
+
 const router = express.Router();
 
-// Route pour récupérer la clé publique
-router.get('/public-key', (req, res) => {
-  res.json({ publicKey: process.env.STRIPE_PUBLIC_KEY });
-});
-
-// Route pour créer un paiement
-router.post('/create-payment-intent', async (req, res) => {
-  const { amount, currency } = req.body;
+// Route pour créer un paiement et ajouter des crédits
+router.post('/create-payment-intent', authenticateCompany, async (req, res) => {
+  const { packId } = req.body;
 
   try {
+    const pack = await Pack.findByPk(packId);
+    if (!pack) {
+      return res.status(400).json({ error: 'Pack non trouvé' });
+    }
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
+      amount: pack.price,
+      currency: 'usd',
     });
+
+    // Ajout des crédits après paiement réussi (à compléter selon votre logique de confirmation de paiement)
+    const company = req.company;
+    company.credits += pack.credits;
+    await company.save();
+
     res.status(201).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     res.status(400).json({ error: error.message });

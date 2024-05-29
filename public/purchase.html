@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acheter des Packs</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <h1>Acheter des Packs</h1>
+    <form id="payment-form">
+        <select id="pack-select">
+            <option value="1">Pack 1 - 10 crédits - $10</option>
+            <option value="2">Pack 2 - 30 crédits - $25</option>
+            <option value="3">Pack 3 - 50 crédits - $40</option>
+        </select>
+        <button type="submit">Acheter</button>
+    </form>
+    <div id="payment-result"></div>
+
+    <script>
+        const stripe = Stripe('your-publishable-key-here');
+        const paymentForm = document.getElementById('payment-form');
+        const packSelect = document.getElementById('pack-select');
+        const paymentResult = document.getElementById('payment-result');
+
+        paymentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const packId = packSelect.value;
+
+            const response = await fetch('/api/payment/create-payment-intent', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${your_token_here}`
+                },
+                body: JSON.stringify({ packId })
+            });
+
+            const { clientSecret } = await response.json();
+
+            const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: elements.create('card'),
+                    billing_details: {
+                        name: 'Your Company Name'
+                    }
+                }
+            });
+
+            if (error) {
+                paymentResult.textContent = `Payment failed: ${error.message}`;
+            } else {
+                paymentResult.textContent = `Payment succeeded! Payment ID: ${paymentIntent.id}`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -41,6 +41,10 @@ Company.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
+  credits: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+  },
 }, {
   sequelize,
   modelName: 'Company',

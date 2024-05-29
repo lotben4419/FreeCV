@@ -6,6 +6,8 @@ const Company = require('./Company');
 const CV = require('./CV');
 const JobPost = require('./JobPost');
 const Admin = require('./Admin');
+const Coordinates = require('./Coordinates');
+const Pack = require('./Pack');
 
 const models = {
   User,
@@ -13,20 +15,21 @@ const models = {
   CV,
   JobPost,
   Admin,
+  Coordinates,
+  Pack,
 };
 
-// Associations entre User et CV
-User.hasMany(CV, {
-  foreignKey: 'userId',
-  as: 'cvs',
+// Associations
+CV.hasOne(Coordinates, {
+  foreignKey: 'cvId',
+  as: 'coordinates',
 });
 
-CV.belongsTo(User, {
-  foreignKey: 'userId',
-  as: 'user',
+Coordinates.belongsTo(CV, {
+  foreignKey: 'cvId',
+  as: 'cv',
 });
 
-// Associations entre Company et JobPost
 Company.hasMany(JobPost, {
   foreignKey: 'companyId',
   as: 'jobPosts',

@@ -1,42 +1,28 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const CV = sequelize.define('CV', {
+const Coordinates = sequelize.define('Coordinates', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  userId: {
+  cvId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'Users',
+      model: 'CVs',
       key: 'id',
     },
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   },
-  profilePhoto: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  cvFile: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  message: {
+  contactInfo: {
     type: DataTypes.TEXT,
-    allowNull: true,
+    allowNull: false,
   },
 }, {
   timestamps: true,
 });
 
-const Coordinates = require('./Coordinates');
-CV.hasOne(Coordinates, {
-  foreignKey: 'cvId',
-  as: 'coordinates',
-});
-
-module.exports = CV;
+module.exports = Coordinates;
