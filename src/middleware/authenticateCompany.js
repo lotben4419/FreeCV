@@ -12,7 +12,7 @@ const authenticateCompany = async (req, res, next) => {
       throw new Error();
     }
 
-    req.company = company;
+    req.user = company;
     next();
   } catch (error) {
     res.status(401).json({ error: 'Please authenticate as company.' });

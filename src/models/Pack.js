@@ -1,13 +1,9 @@
-// src/models/Pack.js
-const { Sequelize, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Pack = sequelize.define('Pack', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+class Pack extends Model {}
+
+Pack.init({
   name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -16,8 +12,13 @@ const Pack = sequelize.define('Pack', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  price: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
 }, {
-  timestamps: true,
+  sequelize,
+  modelName: 'Pack',
 });
 
 module.exports = Pack;

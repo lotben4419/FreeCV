@@ -12,6 +12,7 @@ const adminRoutes = require('./src/routes/admin');
 const jobPostRoutes = require('./src/routes/jobPost');
 const paymentRoutes = require('./src/routes/payment');
 const packRoutes = require('./src/routes/pack');
+const contactInfoRoutes = require('./src/routes/contactInfo');
 
 // Import des modèles pour synchronisation
 const models = require('./src/models');
@@ -36,9 +37,10 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/jobPost', jobPostRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/pack', packRoutes);
+app.use('/api/contact-info', contactInfoRoutes);
 
 // Sync database and start server
-sequelize.sync()
+sequelize.sync() // Retirez l'option { force: true }
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}.`);

@@ -6,10 +6,9 @@ const router = express.Router();
 
 // Route pour créer un pack
 router.post('/', authenticateAdmin, async (req, res) => {
-  const { name, credits } = req.body;
-
+  const { name, credits, price } = req.body;
   try {
-    const pack = await Pack.create({ name, credits });
+    const pack = await Pack.create({ name, credits, price });
     res.status(201).json(pack);
   } catch (error) {
     res.status(400).json({ error: error.message });
