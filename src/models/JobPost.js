@@ -1,21 +1,9 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Company = require('./Company');
 
-const JobPost = sequelize.define('JobPost', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  companyId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: Company,
-      key: 'id',
-    },
-  },
+class JobPost extends Model {}
+
+JobPost.init({
   title: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -26,14 +14,15 @@ const JobPost = sequelize.define('JobPost', {
   },
   isActive: {
     type: DataTypes.BOOLEAN,
-    defaultValue: true,
+    defaultValue: false,
   },
   validUntil: {
     type: DataTypes.DATE,
     allowNull: false,
   },
 }, {
-  timestamps: true,
+  sequelize,
+  modelName: 'JobPost',
 });
 
 module.exports = JobPost;

@@ -1,12 +1,9 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Company = sequelize.define('Company', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
+class Company extends Model {}
+
+Company.init({
   companyName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -31,9 +28,6 @@ const Company = sequelize.define('Company', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    validate: {
-      isEmail: true,
-    },
   },
   phone: {
     type: DataTypes.STRING,
@@ -48,7 +42,8 @@ const Company = sequelize.define('Company', {
     allowNull: false,
   },
 }, {
-  timestamps: true,
+  sequelize,
+  modelName: 'Company',
 });
 
 module.exports = Company;

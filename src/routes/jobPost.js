@@ -1,14 +1,19 @@
 const express = require('express');
+const router = express.Router();
 const JobPost = require('../models/JobPost');
 
-const router = express.Router();
-
-// Route pour créer une annonce
-router.post('/create', async (req, res) => {
-  const { companyId, title, description, validUntil } = req.body;
+// Route pour créer une annonce d'emploi
+router.post('/', async (req, res) => {
+  const { companyId, title, description, isActive, validUntil } = req.body;
 
   try {
-    const jobPost = await JobPost.create({ companyId, title, description, validUntil });
+    const jobPost = await JobPost.create({
+      companyId,
+      title,
+      description,
+      isActive,
+      validUntil
+    });
     res.status(201).json(jobPost);
   } catch (error) {
     res.status(400).json({ error: error.message });

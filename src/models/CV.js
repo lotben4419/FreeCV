@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./User');
 
 const CV = sequelize.define('CV', {
   id: {
@@ -12,9 +11,11 @@ const CV = sequelize.define('CV', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
+      model: 'Users',
       key: 'id',
     },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   },
   profilePhoto: {
     type: DataTypes.STRING,

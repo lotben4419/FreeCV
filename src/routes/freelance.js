@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const CV = require('../models/CV');
+const { CV } = require('../models');
 
 const router = express.Router();
 
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Route pour télécharger la photo de profil et le CV
-router.post('/upload', upload.fields([{ name: 'profilePhoto', maxCount: 1 }, { name: 'cvFile', maxCount: 1 }]), async (req, res) => {
+router.post('/cv', upload.fields([{ name: 'profilePhoto', maxCount: 1 }, { name: 'cvFile', maxCount: 1 }]), async (req, res) => {
   try {
     const { userId, message } = req.body;
     const profilePhoto = req.files['profilePhoto'] ? req.files['profilePhoto'][0].filename : null;
